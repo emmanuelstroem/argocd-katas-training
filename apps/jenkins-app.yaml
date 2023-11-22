@@ -1,16 +1,24 @@
-project: default
-destination:
-  server: 'https://kubernetes.default.svc'
-  namespace: student-14
-syncPolicy:
-  automated: {}
-sources:
-  - repoURL: 'https://github.com/emmanuelstroem/argocd-katas-training'
-    targetRevision: main
-    ref: values
-  - repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 12.4.0
-    helm:
-      valueFiles:
-        - $values/jenkins/values.yaml
-    chart: jenkins
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: emmanuel-jenkins
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: student-14
+  project: default
+  sources:
+    - repoURL: 'https://charts.bitnami.com/bitnami'
+      targetRevision: 12.4.0
+      helm:
+        valueFiles:
+          - $values/jenkins/values.yaml
+      chart: jenkins
+    - repoURL: 'https://github.com/emmanuelstroem/argocd-katas-training'
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

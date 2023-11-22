@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quotes-student-14
+  name: emmanuel-quotes-flask
   namespace: argocd
 spec:
   destination:
